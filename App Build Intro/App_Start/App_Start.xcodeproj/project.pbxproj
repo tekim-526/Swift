@@ -15,6 +15,7 @@
 		93A760DF26B3E08300AF1D1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93A760DD26B3E08300AF1D1C /* LaunchScreen.storyboard */; };
 		93A760EA26B3E08300AF1D1C /* App_StartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A760E926B3E08300AF1D1C /* App_StartTests.swift */; };
 		93A760F526B3E08300AF1D1C /* App_StartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A760F426B3E08300AF1D1C /* App_StartUITests.swift */; };
+		93C3685126B8F5B700D88B05 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C3685026B8F5B700D88B05 /* DetailVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		93A760F026B3E08300AF1D1C /* App_StartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = App_StartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93A760F426B3E08300AF1D1C /* App_StartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App_StartUITests.swift; sourceTree = "<group>"; };
 		93A760F626B3E08300AF1D1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93C3685026B8F5B700D88B05 /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				93A760D226B3E08200AF1D1C /* AppDelegate.swift */,
 				93A760D426B3E08200AF1D1C /* SceneDelegate.swift */,
 				93A760D626B3E08200AF1D1C /* ViewController.swift */,
+				93C3685026B8F5B700D88B05 /* DetailVC.swift */,
 				93A760D826B3E08200AF1D1C /* Main.storyboard */,
 				93A760DB26B3E08300AF1D1C /* Assets.xcassets */,
 				93A760DD26B3E08300AF1D1C /* LaunchScreen.storyboard */,
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93A760D726B3E08200AF1D1C /* ViewController.swift in Sources */,
+				93C3685126B8F5B700D88B05 /* DetailVC.swift in Sources */,
 				93A760D326B3E08200AF1D1C /* AppDelegate.swift in Sources */,
 				93A760D526B3E08200AF1D1C /* SceneDelegate.swift in Sources */,
 			);
