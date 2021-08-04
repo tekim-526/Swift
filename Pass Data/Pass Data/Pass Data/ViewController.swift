@@ -11,7 +11,7 @@
 // 1. instance property 를 넘겨주는 방법
 // 2. segue "prepare"라는 함수를 이용함
 // 3. instance를 통으로 넘겨주는 방법
-
+// 4. delegate pattern (대리, 위임)
 
 import UIKit
 
@@ -22,8 +22,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-    // 3번 방법
-    @IBOutlet weak var dataLabel: UILabel!
+    
+    // 1번 방법
+    @IBAction func moveToDetail(_ sender: Any) {
+        let detailVC = DetailViewController(nibName: "DetailViewController", bundle: nil)
+        // detailVC.someString = "aaa String"
+        
+        self.present(detailVC, animated: true, completion: nil) // 화면에 호출할 준비 끝
+        detailVC.someLabel.text = "bb" //26번째 줄에 넣으면 크래쉬가 남 화면이 준비가 안되어 있기 때문에
+    }
     
     // 2번 방법 prepare func을 사용한 segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -34,16 +41,9 @@ class ViewController: UIViewController {
             }
         }
     }
-    @IBAction func moveToDetail(_ sender: Any) {
-        let detailVC = DetailViewController(nibName: "DetailViewController", bundle: nil)
-        // 1번 방법
-        // detailVC.someString = "aaa String"
-        
-        self.present(detailVC, animated: true, completion: nil) // 화면에 호출할 준비 끝
-        detailVC.someLabel.text = "bb" //26번째 줄에 넣으면 크래쉬가 남 화면이 준비가 안되어 있기 때문에
-
-    }
     
+    // 3번 방법
+    @IBOutlet weak var dataLabel: UILabel!
     @IBAction func moveToInstance(_ sender: Any) {
         let detailVC = InstanceDetailViewController(nibName: "InstanceDetailViewController", bundle: nil)
         
@@ -52,5 +52,18 @@ class ViewController: UIViewController {
         self.present(detailVC, animated: true, completion: nil)
         
     }
+    
+    // 4번 방법
+    
+    @IBAction func moveToDelegate(_ sender: Any) {
+        let detailVC = DelegateDetailViewController(nibName: "DelegateDetailViewController", bundle: nil)
+        detailVC.delegate = self
+        self.present(detailVC, animated: true, completion: nil)
+    }
 }
 
+extension ViewController: DelegateDetailViewControllerDelegate {
+    func passString(string: String) {
+        self.dataLabel.text = string
+    }
+}
