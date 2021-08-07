@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		933D36BE26BBA83100498A13 /* ClosureDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933D36BC26BBA83100498A13 /* ClosureDetailViewController.swift */; };
+		933D36BF26BBA83100498A13 /* ClosureDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933D36BD26BBA83100498A13 /* ClosureDetailViewController.xib */; };
+		933D36C226BE4D7400498A13 /* NotiDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933D36C026BE4D7400498A13 /* NotiDetailViewController.swift */; };
+		933D36C326BE4D7400498A13 /* NotiDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933D36C126BE4D7400498A13 /* NotiDetailViewController.xib */; };
 		93C3685F26B9021300D88B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C3685E26B9021300D88B05 /* AppDelegate.swift */; };
 		93C3686126B9021300D88B05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C3686026B9021300D88B05 /* SceneDelegate.swift */; };
 		93C3686326B9021300D88B05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C3686226B9021300D88B05 /* ViewController.swift */; };
@@ -42,6 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		933D36BC26BBA83100498A13 /* ClosureDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureDetailViewController.swift; sourceTree = "<group>"; };
+		933D36BD26BBA83100498A13 /* ClosureDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClosureDetailViewController.xib; sourceTree = "<group>"; };
+		933D36C026BE4D7400498A13 /* NotiDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiDetailViewController.swift; sourceTree = "<group>"; };
+		933D36C126BE4D7400498A13 /* NotiDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotiDetailViewController.xib; sourceTree = "<group>"; };
 		93C3685B26B9021300D88B05 /* Pass Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pass Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C3685E26B9021300D88B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93C3686026B9021300D88B05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +124,10 @@
 				93C3685E26B9021300D88B05 /* AppDelegate.swift */,
 				93C3686026B9021300D88B05 /* SceneDelegate.swift */,
 				93C3686226B9021300D88B05 /* ViewController.swift */,
+				933D36C026BE4D7400498A13 /* NotiDetailViewController.swift */,
+				933D36C126BE4D7400498A13 /* NotiDetailViewController.xib */,
+				933D36BC26BBA83100498A13 /* ClosureDetailViewController.swift */,
+				933D36BD26BBA83100498A13 /* ClosureDetailViewController.xib */,
 				93C3689826BA6EB000D88B05 /* DelegateDetailViewController.swift */,
 				93C3689926BA6EB000D88B05 /* DelegateDetailViewController.xib */,
 				93C3689426B9114D00D88B05 /* InstanceDetailViewController.swift */,
@@ -252,6 +264,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				933D36BF26BBA83100498A13 /* ClosureDetailViewController.xib in Resources */,
+				933D36C326BE4D7400498A13 /* NotiDetailViewController.xib in Resources */,
 				93C3689B26BA6EB000D88B05 /* DelegateDetailViewController.xib in Resources */,
 				93C3686B26B9021500D88B05 /* LaunchScreen.storyboard in Resources */,
 				93C3686826B9021500D88B05 /* Assets.xcassets in Resources */,
@@ -283,9 +297,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				93C3686326B9021300D88B05 /* ViewController.swift in Sources */,
+				933D36BE26BBA83100498A13 /* ClosureDetailViewController.swift in Sources */,
 				93C3689A26BA6EB000D88B05 /* DelegateDetailViewController.swift in Sources */,
 				93C3685F26B9021300D88B05 /* AppDelegate.swift in Sources */,
 				93C3689326B90B9100D88B05 /* SegueDetailViewController.swift in Sources */,
+				933D36C226BE4D7400498A13 /* NotiDetailViewController.swift in Sources */,
 				93C3686126B9021300D88B05 /* SceneDelegate.swift in Sources */,
 				93C3689626B9114D00D88B05 /* InstanceDetailViewController.swift in Sources */,
 				93C3689026B902C000D88B05 /* DetailViewController.swift in Sources */,
