@@ -34,6 +34,10 @@ class ViewController: UIViewController {
         // cell 을 등록함
         settingTableView.register(UINib(nibName: "ProfileCell", bundle: nil), forCellReuseIdentifier: "ProfileCell")
         settingTableView.register(UINib(nibName: "MenuCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
+        // self는 여기서 생략 가능
+        self.title = "Settings"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.view.backgroundColor = UIColor(white: 243/255, alpha: 1)
         makeData()
     }
 
@@ -50,7 +54,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return settingModel.count
     }
-    
+    // 여기만 눌렀을때 반응해야함
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 && indexPath.row == 0 {
+            if let generalVC = UIStoryboard(name: "GeneralViewController", bundle: nil).instantiateViewController(identifier: "GeneralViewController") as? GeneralViewController {
+                self.navigationController?.pushViewController(generalVC, animated: true)
+                
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
