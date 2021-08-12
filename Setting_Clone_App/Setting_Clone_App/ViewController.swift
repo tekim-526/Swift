@@ -59,7 +59,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     // 클릭을 했을 때 navigationController를 통해 넘어가는 부분
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 && indexPath.row == 0 {
+        // 누른시점에 눌려있는 것을 풀고싶다
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // present는 아래에서 위로 올라오는 것
+        if indexPath.section == 0 && indexPath.row == 0 {
+            let myIdVC = MyIDViewController(nibName: "MyIDViewController", bundle: nil)
+            self.present(myIdVC, animated: true, completion: nil)
+            
+        }
+        else if indexPath.section == 1 && indexPath.row == 0 {
             if let generalVC = UIStoryboard(name: "GeneralViewController", bundle: nil).instantiateViewController(identifier: "GeneralViewController") as? GeneralViewController {
                 self.navigationController?.pushViewController(generalVC, animated: true)
             }
