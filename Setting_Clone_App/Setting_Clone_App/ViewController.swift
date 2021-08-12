@@ -25,24 +25,26 @@ class ViewController: UIViewController {
         )
     }
     
-    override func viewDidLoad() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+
+    }
+    override func viewDidLoad() { //viewDidLoad는 한번 호출되면 없어지지 않음
         super.viewDidLoad()
         settingTableView.delegate = self
         settingTableView.dataSource = self
         // section간의 간격의 색을 변경
-        settingTableView.backgroundColor = UIColor(white: 243/255, alpha: 1)
+        settingTableView.backgroundColor = UIColor(white: 245/255, alpha: 1)
         // cell 을 등록함
         settingTableView.register(UINib(nibName: "ProfileCell", bundle: nil), forCellReuseIdentifier: "ProfileCell")
         settingTableView.register(UINib(nibName: "MenuCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
-        // self는 여기서 생략 가능
+        // self 생략 가능
         self.title = "Settings"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.view.backgroundColor = UIColor(white: 243/255, alpha: 1)
+        self.view.backgroundColor = UIColor(white: 245/255, alpha: 1)
         makeData()
     }
-
-    
-    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -54,16 +56,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return settingModel.count
     }
-    // 여기만 눌렀을때 반응해야함
+    
+    // 클릭을 했을 때 navigationController를 통해 넘어가는 부분
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 && indexPath.row == 0 {
             if let generalVC = UIStoryboard(name: "GeneralViewController", bundle: nil).instantiateViewController(identifier: "GeneralViewController") as? GeneralViewController {
                 self.navigationController?.pushViewController(generalVC, animated: true)
-                
             }
         }
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if (indexPath.section == 0) {
