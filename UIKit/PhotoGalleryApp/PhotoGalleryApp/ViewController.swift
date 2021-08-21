@@ -10,6 +10,9 @@ import PhotosUI // 사진앱 기반해서 앨범을 띄우기 위한 프레임 �
 
 class ViewController: UIViewController {
 
+    // var images = [UIImage?]() // 이미지를 저장할 공간 밑부분 주석에써져 있는 코드에서 사용
+    var fetchResults: PHFetchResult<PHAsset>?
+    
     @IBOutlet weak var photoCollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,17 +46,22 @@ class ViewController: UIViewController {
     
     @objc func checkPermission() {
         //permission이 되어 있는지 확인 -> authorizationStatus()
-        if PHPhotoLibrary.authorizationStatus() == .authorized ||
-            PHPhotoLibrary.authorizationStatus() == .limited {
-            showGallery()
+        if PHPhotoLibrary.authorizationStatus() == .authorized || PHPhotoLibrary.authorizationStatus() == .limited {
+            DispatchQueue.main.async {
+                self.showGallery()
+            }
+            
         }
         else if PHPhotoLibrary.authorizationStatus() == .denied {
-            showAutorizationDeniedAlert()
+            DispatchQueue.main.async {
+                self.showAutorizationDeniedAlert()
+            }
         }
-        else if PHPhotoLibrary.authorizationStatus() == .notDetermined {// 제일 중요한 상황 Info.plist로 가서 경고문구 주어야함 (심사를 위해)
+        else if PHPhotoLibrary.authorizationStatus() == .notDetermined { // 제일 중요한 상황 Info.plist로 가서 경고문구 주어야함 (심사를 위해)
              // requestAuthorization가 작동할 때 설정한 문구가 나옴
             PHPhotoLibrary.requestAuthorization { status in
                 // 재귀를 통해 함수를 다시 호출하여 사용
+                
                 self.checkPermission()
             }
         }
@@ -85,31 +93,57 @@ class ViewController: UIViewController {
     }
     
     @objc func refresh() {
-        
+        // 가져온 이미지를 저화질에서 고화질로 바꾸어줌
+        self.photoCollectionView.reloadData()
     }
 
 }
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.fetchResults?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
+        
+        if let asset = self.fetchResults?[indexPath.row] {
+            cell.loadImage(asset: asset)
+        }
         return cell
     }
-    
-    
 }
 
 extension ViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        
+        // 바로 갤러리에서 불러오는 것은 그렇게 좋은 방법이 아님, 사이즈가 너무 크기 때문
+        // 불러온 정보를 이미지로 바꾸는 법 -> self.fetchresults를 통해서 전체를 받아옴
+        // 화면에 꽉 채우기 위해서는 scale을 곱해주어야함, 150은 우리가 임의로 설정한 크기를 해주면 좋음 -> let imageSize = ~~~
+        // 선택한 사진의 정보를 가져오는 방법
+        //let identifiers = results.map( \.assetIdentifier )
+        let identifiers = results.map{ $0.assetIdentifier ?? "" }
+        self.fetchResults = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
+        self.photoCollectionView.reloadData()
         
         // 작업을 완료하고, cancel을 눌렀을때 내려가는 부분
         self.dismiss(animated: true, completion: nil)
+        /*
+        fetchAssets.enumerateObjects { asset, index, stop in
+            if index == 2 { // 두번째에 멈추게 함 인덱스를 받아서
+                stop.pointee = true
+            }
+            let imageManager = PHImageManager()
+            let scale = UIScreen.main.scale
+            let imageSize = CGSize(width: scale * 150, height: scale * 150)
+            
+            imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFill, options: nil) { image, info in
+                self.images.append(image)
+            }*/
+            
+            
+        }
+        
     }
     
     
-}
+
