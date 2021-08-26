@@ -20,6 +20,11 @@ struct Result: Codable {
     let trackName: String?
     let previewUrl: String?
     let artworkUrl100: String?
+    let shortDescription: String?
+    let longDescription: String?
+    let trackPrice: Double?
+    let currency: String?
+    let releaseDate: String?
     /* 변수명을 다른걸 사용하고 싶을때는 enum을 사용
     enum CodingKeys: String, CodingKey {
         case image = "artworkUrl100"

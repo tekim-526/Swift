@@ -13,7 +13,7 @@ class PhotoCell: UICollectionViewCell {
         let imageManager = PHImageManager()
         let scale = UIScreen.main.scale
         let imageSize = CGSize(width: scale * 150, height: scale * 150)
-            
+        
         let options = PHImageRequestOptions()
         options.deliveryMode = .highQualityFormat// .fastformat은 저화질 nil을 준 옵션에다가 options를 넣으면 고화질인 상태로만 쭉 있음
         self.photoImageView.image = nil // 새로고침을 했을 때 순서가 바뀌는부분에 대한 처리

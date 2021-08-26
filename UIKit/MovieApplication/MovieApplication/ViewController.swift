@@ -22,9 +22,33 @@ class ViewController: UIViewController {
         searchBar.delegate = self
         requestMovieAPI()
         
+        
     }
     
-    // 네트워크 호출
+    // 2. 이미지를 네트워크에서 가져오기
+    func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        
+        if let hasURL = URL(string: urlString) {
+            var request = URLRequest(url: hasURL)
+            request.httpMethod = "GET"
+            session.dataTask(with: request) { data, response, error in
+                print( (response as! HTTPURLResponse).statusCode )
+
+                if let hasData = data {
+                    completion(UIImage(data: hasData))
+                    return
+                }
+            }.resume()
+            session.finishTasksAndInvalidate()
+        }
+        // 메모리 해제
+        completion(nil)
+    }
+    
+    
+    // 1. 네트워크 호출
     func requestMovieAPI() {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
@@ -54,6 +78,12 @@ class ViewController: UIViewController {
                 do {
                     self.movieModel = try JSONDecoder().decode(MovieModel.self, from: hasData)
                     print(self.movieModel ?? "No Data")
+                    
+                    // 데이터를 잘 받아온 후에 tableView를 갱신해야함 그리고 메인 쓰레드에서 이루어 져야함 메인쓰레드가 아닌 이유는 특정한 코드가 클로져 안에서 실행되기 때문
+                    DispatchQueue.main.async {
+                        self.movieTableView.reloadData()
+                    }
+                    
                 }
                 catch {
                     print (error)
@@ -67,11 +97,37 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.movieModel?.results.count ?? 0
     }
-    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension // 컨텐츠 크기에 맞춤
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        cell.titleLabel.text = self.movieModel?.results[indexPath.row].trackName
+        cell.descriptionLabel.text = self.movieModel?.results[indexPath.row].shortDescription
+        let currency = self.movieModel?.results[indexPath.row].currency ?? ""
+        let price = self.movieModel?.results[indexPath.row].trackPrice?.description ?? ""// price가 int형 이어서
+        cell.priceLabel.text = currency + " " + price
+        if let hasURL = self.movieModel?.results[indexPath.row].artworkUrl100 {
+            self.loadImage(urlString: hasURL) { image in
+                DispatchQueue.main.async {
+                    cell.movieImageView.image = image
+                }
+            }
+        }
+        
+        
+        if let dateString = self.movieModel?.results[indexPath.row].releaseDate {// iso8601데이터 포맷임 검색해보자
+            let formatter = ISO8601DateFormatter()
+            
+            if let isoDate = formatter.date(from: dateString) {
+                let myFormatter = DateFormatter()
+                myFormatter.dateFormat = "yyyy-MM-dd"
+                let dateString = myFormatter.string(from: isoDate)
+                cell.dateLabel.text = dateString
+            }
+        }
         return cell
     }
     
