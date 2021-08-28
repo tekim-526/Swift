@@ -25,7 +25,7 @@ struct MovieResult: Codable {
     let trackPrice: Double?
     let currency: String?
     let releaseDate: String?
-    /* 변수명을 다른걸 사용하고 싶을때는 enum을 사용
+    /* 변수명을 다른걸 사용하고 싶을때는 enum을 사용 Codingkey 추가 해 주어야함
     enum CodingKeys: String, CodingKey {
         case image = "artworkUrl100"
         case title = "trackName"

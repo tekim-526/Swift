@@ -11,7 +11,7 @@ class ViewController: UIViewController {
 
     var movieModel: MovieModel?
     var term = ""
-    
+    var networkLayer = NetworkLayer()
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var movieTableView: UITableView!
     
@@ -23,8 +23,17 @@ class ViewController: UIViewController {
         searchBar.delegate = self
         requestMovieAPI()
     }
-    
-    // 2. 이미지를 네트워크에서 가져오기
+    func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        networkLayer.request(type: .justURL(urlString: urlString)) { data, response, error in
+            if let hasData = data {
+                completion(UIImage(data: hasData))
+                return
+            }
+            completion(nil)
+        }
+    }
+/*
+    // 2. 이미지를 네트워크에서 가져오기 -> 네트워크에서 가져올때 오류가 많이 생김
     func loadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
@@ -45,9 +54,30 @@ class ViewController: UIViewController {
         // 메모리 해제
         completion(nil)
     }
-    
-    
-    // 1. 네트워크 호출
+*/
+    func requestMovieAPI() {
+        let term = URLQueryItem(name: "term", value: term)
+        let media = URLQueryItem(name: "media", value: "movie")
+        let querys = [term, media]
+        networkLayer.request(type: .searchMovie(querys: querys)) { data, response, error in
+            if let hasData = data {
+                do {
+                    self.movieModel = try JSONDecoder().decode(MovieModel.self, from: hasData)
+                    print(self.movieModel ?? "No Data")
+                    
+                    // 데이터를 잘 받아온 후에 tableView를 갱신해야함 그리고 메인 쓰레드에서 이루어 져야함 메인쓰레드가 아닌 이유는 특정한 코드가 클로져 안에서 실행되기 때문
+                    DispatchQueue.main.async {
+                        self.movieTableView.reloadData()
+                    }
+                }
+                catch {
+                    print (error)
+                }
+            }
+        }
+    }
+/*
+    // 1. 네트워크 호출 -> 네트워크에서 가져올때 오류가 많이 생김
     func requestMovieAPI() {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
@@ -91,6 +121,7 @@ class ViewController: UIViewController {
         // 끝내는 키워드
         session.finishTasksAndInvalidate()
     }
+*/
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
