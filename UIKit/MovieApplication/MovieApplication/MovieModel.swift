@@ -12,10 +12,10 @@ import Foundation
 struct MovieModel: Codable {
     let resultCount: Int
     // key에 해당하는 것들의 배열
-    let results: [Result]
+    let results: [MovieResult]
 }
 
-struct Result: Codable {
+struct MovieResult: Codable {
     // key에 해당함, json 파일의 key값과 일치해야함
     let trackName: String?
     let previewUrl: String?

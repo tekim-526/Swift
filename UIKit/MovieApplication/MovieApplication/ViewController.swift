@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     var movieModel: MovieModel?
+    var term = ""
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var movieTableView: UITableView!
@@ -21,8 +22,6 @@ class ViewController: UIViewController {
         movieTableView.dataSource = self
         searchBar.delegate = self
         requestMovieAPI()
-        
-        
     }
     
     // 2. 이미지를 네트워크에서 가져오기
@@ -56,7 +55,7 @@ class ViewController: UIViewController {
         // 기본 주소값 설정
         var components = URLComponents(string: "https://itunes.apple.com/search")
         // marvel 대신에 받아올 값이 들어가야함
-        let term = URLQueryItem(name: "term", value: "marvel")
+        let term = URLQueryItem(name: "term", value: term)
         let media = URLQueryItem(name: "media", value: "movie")
         components?.queryItems = [term, media]
         // componets?.queryItems에 값을 넣어주면 "https://itunes.apple.com/search?term=marvel&media=movie"와 같은 말이됨
@@ -83,7 +82,6 @@ class ViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.movieTableView.reloadData()
                     }
-                    
                 }
                 catch {
                     print (error)
@@ -98,6 +96,14 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.movieModel?.results.count ?? 0
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = UIStoryboard(name: "DetailViewController", bundle: nil).instantiateViewController(identifier: "DetailViewController") as! DetailViewController
+        tableView.deselectRow(at: indexPath, animated: true)
+        detailVC.movieResult = self.movieModel?.results[indexPath.row]
+        //detailVC.modalPresentationStyle = .fullScreen
+        self.present(detailVC, animated: true) {  }
+
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension // 컨텐츠 크기에 맞춤
@@ -136,6 +142,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
+        guard let hasText = searchBar.text else {
+            return
+        }
+        term = hasText
+        requestMovieAPI()
+        self.view.endEditing(true)
     }
 }
