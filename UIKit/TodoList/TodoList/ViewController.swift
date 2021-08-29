@@ -49,7 +49,9 @@ class ViewController: UIViewController {
     }
     
     @objc func addNewTodo() {
-        
+        let detailVC = TodoDetailViewController(nibName: "TodoDetailViewController", bundle: nil)
+        detailVC.delegate = self
+        self.present(detailVC, animated: true, completion: nil)
     }
 }
 
@@ -73,6 +75,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return cell
+    }
+    
+    
+}
+extension ViewController: TodoDetailViewControllerDelegate {
+    func didFinishSaveData() {
+        self.fetchData()
+        self.todoTableView.reloadData()
     }
     
     
