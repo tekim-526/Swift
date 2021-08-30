@@ -8,6 +8,26 @@
 import UIKit
 import CoreData
 
+enum PrioriotyLevel: Int64 {
+    case level1
+    case level2
+    case level3
+}
+
+extension PrioriotyLevel {
+    var color: UIColor {
+        switch self {
+        case .level1:
+            return .green
+        case .level2:
+            return .orange
+        case .level3:
+            return .red
+        
+        }
+    }
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var todoTableView: UITableView!
@@ -74,7 +94,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.dateLabel.text = ""
         }
         
+        let priority = todoList[indexPath.row].priorityLevel
+        let priorityColor = PrioriotyLevel(rawValue: priority)?.color
+        cell.priorityView.backgroundColor = priorityColor
+        cell.priorityView.layer.cornerRadius = cell.priorityView.bounds.height / 2
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = TodoDetailViewController(nibName: "TodoDetailViewController", bundle: nil)
+        detailVC.delegate = self
+        detailVC.selectedTodoList = todoList[indexPath.row]
+        self.present(detailVC, animated: true, completion: nil)
     }
     
     
