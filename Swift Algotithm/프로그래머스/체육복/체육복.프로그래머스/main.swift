@@ -14,36 +14,35 @@ import Foundation
  전체 학생의 수 n, 체육복을 도난당한 학생들의 번호가 담긴 배열 lost, 여벌의 체육복을 가져온 학생들의 번호가 담긴 배열 reserve가 매개변수로 주어질 때, 체육수업을 들을 수 있는 학생의 최댓값을 return 하도록 solution 함수를 작성해주세요.
 */
 // 학생수 n, 체육복을 도난당한 학생들의 번호 배열 lost, reserve가 체육복을 빌려줄 수 있는 학생수 reserve의 경우 앞 뒤만 가능
-func solution(_ n:Int, _ lost:[Int], _ reserve:[Int]) -> Int {
-    var arr: Set<Int> = []
-    var ret: Set<Int> = []
-    var tmp = reserve
-    for i in 1...n{
-        arr.insert(i)
-    }
-    for i in 0...reserve.count - 1{
-        ret.insert(reserve[i])
-    }
-    print(ret)
-    print("ret = \(arr.subtracting(lost))")
-    ret = arr.subtracting(lost)
-    var idx = 0
-    while (idx < tmp.count) {
-        var idx2 = 0
-        while (idx2 < lost.count) {
-            if (tmp[idx] + 1 == lost[idx2] || tmp[idx] - 1 == lost[idx2]) {
-                ret.insert(lost[idx2])
-                tmp.remove(at: idx)
-                tmp.insert(0, at: idx)
+import Foundation
+
+func solution(_ n:Int, _ lost:[Int], _ reserve:[Int]) -> Int{
+    var lostSet = Set(lost).subtracting(reserve)
+    var reserveSet = Set(reserve).subtracting(lost)
+    
+    for reserve in reserveSet {
+        
+        if lostSet.contains(reserve - 1)
+        {
+            lostSet.remove(reserve - 1)
+            if  lostSet.contains(reserve + 1)
+            {
+                lostSet.remove(reserve - 1)
+                reserveSet.remove(reserve)
             }
-            idx2 += 1
+            continue
         }
-        idx += 1
+        if lostSet.contains(reserve + 1)
+        {
+            lostSet.remove(reserve + 1)
+            if lostSet.contains(reserve - 1)
+            {
+                lostSet.remove(reserve + 1)
+                reserveSet.remove(reserve)
+            }
+        }
     }
-    print(ret)
-    return ret.count
+    return (n - lostSet.count)
 }
-
-
-var a = solution(5, [2,4], [3]) //->return 5
-print(a)
+var a = solution(5, [2, 4], [3]) //->return 5
+print("return = \(a)")
