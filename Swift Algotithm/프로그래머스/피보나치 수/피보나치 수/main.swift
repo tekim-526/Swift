@@ -18,3 +18,22 @@ func solution(_ n:Int) -> Int {
     return numArr[n]
 }
 print(solution(10000))
+
+// others solution
+
+func othersSolution(_ n:Int) -> Int {
+    return fibonachi(n) % 1234567
+}
+
+func fibonacci(_ n: Int) -> Int {
+    var m1 = 1
+    var m2 = 0
+    var ans = 0
+    for _ in 2...n {
+        ans = m1 + m2
+        m2 = m1 % 1234567
+        m1 = ans % 1234567
+    }
+
+    return ans
+}
