@@ -22,7 +22,7 @@ print(solution(10000))
 // others solution
 
 func othersSolution(_ n:Int) -> Int {
-    return fibonachi(n) % 1234567
+    return fibonacci(n) % 1234567
 }
 
 func fibonacci(_ n: Int) -> Int {
