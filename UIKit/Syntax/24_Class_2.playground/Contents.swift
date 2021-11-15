@@ -7,7 +7,7 @@ class GameInfo {
     var homeScore = 0
     var awayScore = 0
     
-    final func presentScore() -> String// final을 적으면 다른데서 오버라이드 불가능
+    func presentScore() -> String// final을 적으면 다른데서 오버라이드 불가능
     {
         return homeScore.description + " : " + awayScore.description
     }
@@ -17,7 +17,7 @@ class Soccer: GameInfo { // 콜론찍고 부모 class를 가져옴
     var time = 0
 }
 class Baseball: GameInfo {
-    override func presentScore() -> String {
+    final override func presentScore() -> String {
         return homeScore.description + " 대 " + awayScore.description
     }
     var round = 0

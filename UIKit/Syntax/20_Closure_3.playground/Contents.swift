@@ -12,7 +12,7 @@ let containsText: (String, String) -> Bool = { name, find in
     {
         return (true)
     }
-    return (true)
+    return (false)
 }
 
 func someFind(find: String) -> [String] {
