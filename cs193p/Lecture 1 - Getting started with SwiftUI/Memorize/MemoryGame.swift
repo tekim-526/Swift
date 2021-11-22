@@ -8,23 +8,42 @@
 import Foundation
 
 //private(set)은 다른 class || struct 에서 볼 수 있지만 호출은 불가능함
-struct MemoryGame<CardContent> {
+struct MemoryGame<CardContent> where CardContent: Equatable{
     private(set) var cards: Array<Card>
-    
+    private var indexOfTheOneAndOnlyFaceUpCard: Int?
     mutating func choose(_ card: Card) {
-        let chosenIndex = index(of: card)
-        cards[chosenIndex].isFaceUp.toggle()
-        print("hello = \(cards[chosenIndex])")
-    }
-    func index(of card: Card) -> Int {
-        for index in 0..<cards.count
+        //if let chosenIndex = index(of: card)
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id }),
+           !cards[chosenIndex].isFaceUp,
+           !cards[chosenIndex].isMatched
         {
-            if cards[index].id == card.id {
-                return index
+            if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
+                if cards[chosenIndex].content == cards[potentialMatchIndex].content {
+                    cards[chosenIndex].isMatched = true
+                    cards[potentialMatchIndex].isMatched = true
+                }
+                indexOfTheOneAndOnlyFaceUpCard = nil
+            } else {
+                for index in cards.indices
+                {
+                    cards[index].isFaceUp = false
+                }
+                indexOfTheOneAndOnlyFaceUpCard = chosenIndex
             }
+            cards[chosenIndex].isFaceUp.toggle()
         }
-        return 0
+        print("\(cards)")
     }
+//    func index(of card: Card) -> Int? {
+//        for index in 0..<cards.count
+//        {
+//            if cards[index].id == card.id {
+//                return index
+//            }
+//        }
+//        return nil
+//    }
+    
     // 초기화
     init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {
         cards = Array<Card>()

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-// @ObservedObject means when Object says something changed, @ObservedObject rebuild entire body
+
 struct ContentView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     var body: some View {
@@ -39,6 +39,8 @@ struct CardView: View {
                 shape.strokeBorder(lineWidth: 3)
                 Text(card.content)
                     .font(.largeTitle)
+            } else if card.isMatched {
+                shape.opacity(0)
             }
             else {
                 shape.fill()
